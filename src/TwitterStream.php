@@ -33,7 +33,7 @@ class TwitterStream {
             $data = json_decode($line, true);
             if(is_null($data)) continue;
             call_user_func($callback, $data);
-            ob_flush();
+            if( ob_get_level() > 0 ) ob_flush();
         	flush();
 		}
 
