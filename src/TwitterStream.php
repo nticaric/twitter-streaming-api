@@ -2,24 +2,38 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Stream\Utils;
 
 class TwitterStream {
 
-	private $endpoint = "https://stream.twitter.com/1.1";
+	private $endpoint = "https://stream.twitter.com/1.1/";
 	
 	public function __construct($config) {
 
 		$this->client = new Client([
 			'base_url' => $this->endpoint,
-			'defaults' => ['auth' => 'oauth']
+			'defaults' => ['auth' => 'oauth', 'stream' => true],
 		]);
 		$oauth = new Oauth1($config);
 
 		$this->client->getEmitter()->attach($oauth);
 	}
 
-	public function getUsers()
+	public function getStatuses($param, $callback)
 	{
-		return $this->client->get('user.json');
+		$response = $this->client->post('statuses/filter.json', $param);
+
+		$body = $response->getBody();
+
+		while (!$body->eof()) {
+		    $line = Utils::readLine($body);
+            $data = json_decode($line, true);
+            if(is_null($data)) continue;
+            call_user_func($callback, $data);
+            ob_flush();
+        	flush();
+		}
+
 	}
 }
