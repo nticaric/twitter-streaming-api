@@ -22,7 +22,9 @@ class TwitterStream {
 
 	public function getStatuses($param, $callback)
 	{
-		$response = $this->client->post('statuses/filter.json', $param);
+		$response = $this->client->post('statuses/filter.json', [
+		    'body'   => $param
+		]);
 
 		$body = $response->getBody();
 
