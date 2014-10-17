@@ -5,7 +5,7 @@ A PHP library for consuming Twitter’s Streaming API
 
 ##Instalation
 
-The easiest way to install Majestic SEO API is via [composer](http://getcomposer.org/). Create the following `composer.json` file and run the `php composer.phar install` command to install it.
+The easiest way to install Twitter Streaming API is via [composer](http://getcomposer.org/). Create the following `composer.json` file and run the `php composer.phar install` command to install it.
 
 ```json
 {
