@@ -6,11 +6,15 @@ use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\Utils;
 use GuzzleHttp\Event\AbstractTransferEvent;
 use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
+use GuzzleHttp\Subscriber\Log\LogSubscriber;
 
 class TwitterStream {
 
-    private $endpoint = "https://stream.twitter.com/1.1/";
-    private $retries  = 16;
+    private $endpoint  = "https://stream.twitter.com/1.1/";
+    private $retries   = 16;
+    private $log       = true;
+    private $logger    = null;
+    private $formatter = null;
     
     public function __construct($config) {
 
@@ -25,6 +29,10 @@ class TwitterStream {
             'max'    => $this->retries,
         ]);
 
+        if($this->log == true) {
+            $this->client->getEmitter()->attach(new LogSubscriber($this->logger, $this->formatter));
+        }
+
         $this->client->getEmitter()->attach($retry);
         $this->client->getEmitter()->attach($oauth);
     }
@@ -32,6 +40,21 @@ class TwitterStream {
     public function setRetries($num)
     {
         $this->retries = $num;
+    }
+
+    public function setLog($value)
+    {
+        $this->log = $value;
+    }
+
+    public function setLogger($value)
+    {
+        $this->logger = $value;
+    }
+
+    public function setFormatter($value)
+    {
+        $this->formater = $value;
     }
 
     public function getStatuses($param, $callback)

@@ -15,7 +15,8 @@
         "nesbot/carbon": "~1.0",
         "guzzlehttp/guzzle": "~4.0",
         "guzzlehttp/oauth-subscriber": "0.1.*",
-        "guzzlehttp/retry-subscriber": "~1.0"
+        "guzzlehttp/retry-subscriber": "~1.0",
+        "guzzlehttp/log-subscriber": "~1.0"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
