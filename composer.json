@@ -13,9 +13,9 @@
 	"require": {
         "php": ">=5.4.0",
         "nesbot/carbon": "~1.0",
-        "guzzlehttp/guzzle": "~4.0",
-        "guzzlehttp/oauth-subscriber": "0.1.*",
-        "guzzlehttp/retry-subscriber": "~1.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "guzzlehttp/oauth-subscriber": "0.2.*",
+        "guzzlehttp/retry-subscriber": "~2.0",
         "guzzlehttp/log-subscriber": "~1.0"
     },
     "require-dev": {
