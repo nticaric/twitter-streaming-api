@@ -45,4 +45,10 @@ class TwitterRestApi
         
         return json_decode($response, true);
     }
+
+    public function getAccountVerifyCredentials()
+    {
+        $response = $this->client->get('account/verify_credentials.json')->getBody();
+        return json_decode($response, true);
+    }
 }
