@@ -51,4 +51,16 @@ class TwitterRestApi
         $response = $this->client->get('account/verify_credentials.json')->getBody();
         return json_decode($response, true);
     }
+
+    public function getUsersLookup($screen_name)
+    {
+        $response = $this->client->get('users/lookup.json?screen_name='.$screen_name)->getBody();
+        return json_decode($response, true);
+    }
+
+    public function getUsersSearch($query)
+    {
+        $response = $this->client->get('users/search.json?q='.$query)->getBody();
+        return json_decode($response, true);
+    }
 }
