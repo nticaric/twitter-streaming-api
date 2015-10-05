@@ -66,7 +66,7 @@ class TwitterRestApi
 
     public function getSearchTweets($query, $lang = "en")
     {
-        $response = $this->client->get('search/tweets.json?q='.urlencode($query)."&lang=".$lang)->getBody();
+        $response = $this->client->get('search/tweets.json?q='.$query."&lang=".$lang)->getBody();
         return json_decode($response, true);
     }
 }
