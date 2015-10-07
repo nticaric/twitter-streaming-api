@@ -46,6 +46,23 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
+    public function postStatusesRetweet($tweetID)
+    {
+        $response = $this->client->post("statuses/retweet/$tweetID.json")->getBody();
+        return json_decode($response, true);
+    }
+
+    public function postFriendshipCreate($screenName)
+    {
+        $response = $this->client->post('friendships/create.json', [
+            'body' => [
+                'screen_name' => $screenName,
+            ]
+        ])->getBody();
+        
+        return json_decode($response, true);
+    }
+
     public function getAccountVerifyCredentials()
     {
         $response = $this->client->get('account/verify_credentials.json')->getBody();
