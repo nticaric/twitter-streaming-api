@@ -86,4 +86,10 @@ class TwitterRestApi
         $response = $this->client->get('search/tweets.json', ['query' => $query])->getBody();
         return json_decode($response, true);
     }
+
+    public function getFollowersList($query = [])
+    {
+        $response = $this->client->get('followers/list.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
 }
