@@ -124,7 +124,7 @@ class TwitterRestApi
 
     public function postFavoritesDestroy($id)
     {
-        $response = $this->client->post('friendships/destroy.json', [
+        $response = $this->client->post('favorites/destroy.json', [
             'body' => [
                 'id' => $id,
             ]
