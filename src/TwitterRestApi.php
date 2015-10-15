@@ -110,4 +110,32 @@ class TwitterRestApi
         
         return json_decode($response, true);
     }
+
+    public function postFriendshipsDestroy($screen_name)
+    {
+        $response = $this->client->post('friendships/destroy.json', [
+            'body' => [
+                'screen_name' => $screen_name,
+            ]
+        ])->getBody();
+        
+        return json_decode($response, true);
+    }
+
+    public function postFavoritesDestroy($id)
+    {
+        $response = $this->client->post('friendships/destroy.json', [
+            'body' => [
+                'id' => $id,
+            ]
+        ])->getBody();
+        
+        return json_decode($response, true);
+    }
+
+    public function postStatusesDestroy($tweetID)
+    {
+        $response = $this->client->post("statuses/destroy/$tweetID.json")->getBody();
+        return json_decode($response, true);
+    }
 }
