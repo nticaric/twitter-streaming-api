@@ -111,6 +111,15 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
+    public function getFriendshipsShow($query)
+    {
+        $response = $this->client->get('friendships/show.json', [
+            'query' => $query
+        ])->getBody();
+        
+        return json_decode($response, true);
+    }
+
     public function postFriendshipsDestroy($screen_name)
     {
         $response = $this->client->post('friendships/destroy.json', [
