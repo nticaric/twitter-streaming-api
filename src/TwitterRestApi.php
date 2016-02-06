@@ -9,12 +9,13 @@ class TwitterRestApi
     /**
      * If $postAsUser is set to true, the app will post as the user, else it will post as the platform
      */
-    public function __construct($credentials)
+    public function __construct($credentials, $defaults = [])
     {
+        $defaults = array_merge($defaults, ['auth' => 'oauth']);
 
         $this->client = new Client([
             'base_url' => $this->endpoint,
-            'defaults' => ['auth' => 'oauth'],
+            'defaults' => $defaults,
         ]);
 
         $oauth = new Oauth1($credentials);
