@@ -23,9 +23,15 @@ class TwitterRestApi
         $this->client->getEmitter()->attach($oauth);
     }
 
-    public function getFriendsIds()
+    public function getFriendsIds($query = [])
     {
-        $response = $this->client->get('friends/ids.json')->getBody();
+        $response = $this->client->get('friends/ids.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
+    public function getFollowersIds($query = [])
+    {
+        $response = $this->client->get('followers/ids.json', ['query' => $query])->getBody();
         return json_decode($response, true);
     }
 
@@ -70,9 +76,17 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
-    public function getUsersLookup($screen_name)
+    public function getUsersLookup($query)
     {
-        $response = $this->client->get('users/lookup.json?screen_name='.$screen_name)->getBody();
+        $response = $this->client->get('users/lookup.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
+    public function postUsersLookup($query)
+    {
+        $response = $this->client->post('users/lookup.json',[
+            'body' => $query
+        ])->getBody();
         return json_decode($response, true);
     }
 
