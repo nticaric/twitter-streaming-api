@@ -82,6 +82,12 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
+    public function getUsersShow($query)
+    {
+        $response = $this->client->get('users/show.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
     public function postUsersLookup($query)
     {
         $response = $this->client->post('users/lookup.json',[
@@ -92,7 +98,7 @@ class TwitterRestApi
 
     public function getUsersSearch($query)
     {
-        $response = $this->client->get('users/search.json', ['query' => $query])->getBody();
+        $response = $this->client->get('users/search.json?q='.$query)->getBody();
         return json_decode($response, true);
     }
 
