@@ -114,6 +114,12 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
+    public function getStatusesShow($query = [])
+    {
+        $response = $this->client->get('statuses/show.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
     public function postDirectMessagesNew($query)
     {
         $response = $this->client->post('direct_messages/new.json', [
