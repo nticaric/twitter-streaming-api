@@ -1,5 +1,7 @@
 <?php namespace Nticaric\Twitter;
+
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class TwitterRestApi
@@ -11,16 +13,16 @@ class TwitterRestApi
      */
     public function __construct($credentials, $defaults = [])
     {
-        $defaults = array_merge($defaults, ['auth' => 'oauth']);
-
-        $this->client = new Client([
-            'base_url' => $this->endpoint,
-            'defaults' => $defaults,
+        $stack = HandlerStack::create();
+        $oauth = new Oauth1($credentials);
+        $stack->push($oauth);
+        $defaults = array_merge($defaults, [
+            'base_uri' => $this->endpoint,
+            'handler'  => $stack,
+            'auth'     => 'oauth'
         ]);
 
-        $oauth = new Oauth1($credentials);
-
-        $this->client->getEmitter()->attach($oauth);
+        $this->client = new Client($defaults);
     }
 
     public function getFriendsIds($query = [])
@@ -45,11 +47,11 @@ class TwitterRestApi
     {
         $response = $this->client->post('favorites/create.json', [
             'body' => [
-                'id' => $postID,
-                'include_entities' => $includeEntities
-            ]
+                'id'               => $postID,
+                'include_entities' => $includeEntities,
+            ],
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
@@ -64,9 +66,9 @@ class TwitterRestApi
         $response = $this->client->post('friendships/create.json', [
             'body' => [
                 'screen_name' => $screenName,
-            ]
+            ],
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
@@ -90,15 +92,15 @@ class TwitterRestApi
 
     public function postUsersLookup($query)
     {
-        $response = $this->client->post('users/lookup.json',[
-            'body' => $query
+        $response = $this->client->post('users/lookup.json', [
+            'body' => $query,
         ])->getBody();
         return json_decode($response, true);
     }
 
     public function getUsersSearch($query)
     {
-        $response = $this->client->get('users/search.json?q='.$query)->getBody();
+        $response = $this->client->get('users/search.json?q=' . $query)->getBody();
         return json_decode($response, true);
     }
 
@@ -123,27 +125,27 @@ class TwitterRestApi
     public function postDirectMessagesNew($query)
     {
         $response = $this->client->post('direct_messages/new.json', [
-            'body' => $query
+            'body' => $query,
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
     public function postStatusesUpdate($query)
     {
         $response = $this->client->post('statuses/update.json', [
-            'body' => $query
+            'body' => $query,
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
     public function getFriendshipsShow($query)
     {
         $response = $this->client->get('friendships/show.json', [
-            'query' => $query
+            'query' => $query,
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
@@ -152,9 +154,9 @@ class TwitterRestApi
         $response = $this->client->post('friendships/destroy.json', [
             'body' => [
                 'screen_name' => $screen_name,
-            ]
+            ],
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
@@ -163,9 +165,9 @@ class TwitterRestApi
         $response = $this->client->post('favorites/destroy.json', [
             'body' => [
                 'id' => $id,
-            ]
+            ],
         ])->getBody();
-        
+
         return json_decode($response, true);
     }
 
