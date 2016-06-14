@@ -46,7 +46,7 @@ class TwitterRestApi
     public function postFavoritesCreate($postID, $includeEntities = false)
     {
         $response = $this->client->post('favorites/create.json', [
-            'body' => [
+            'form_params' => [
                 'id'               => $postID,
                 'include_entities' => $includeEntities,
             ],
@@ -64,7 +64,7 @@ class TwitterRestApi
     public function postFriendshipCreate($screenName)
     {
         $response = $this->client->post('friendships/create.json', [
-            'body' => [
+            'form_params' => [
                 'screen_name' => $screenName,
             ],
         ])->getBody();
@@ -93,7 +93,7 @@ class TwitterRestApi
     public function postUsersLookup($query)
     {
         $response = $this->client->post('users/lookup.json', [
-            'body' => $query,
+            'form_params' => $query,
         ])->getBody();
         return json_decode($response, true);
     }
@@ -125,7 +125,7 @@ class TwitterRestApi
     public function postDirectMessagesNew($query)
     {
         $response = $this->client->post('direct_messages/new.json', [
-            'body' => $query,
+            'form_params' => $query,
         ])->getBody();
 
         return json_decode($response, true);
@@ -134,7 +134,7 @@ class TwitterRestApi
     public function postStatusesUpdate($query)
     {
         $response = $this->client->post('statuses/update.json', [
-            'body' => $query,
+            'form_params' => $query,
         ])->getBody();
 
         return json_decode($response, true);
@@ -152,7 +152,7 @@ class TwitterRestApi
     public function postFriendshipsDestroy($screen_name)
     {
         $response = $this->client->post('friendships/destroy.json', [
-            'body' => [
+            'form_params' => [
                 'screen_name' => $screen_name,
             ],
         ])->getBody();
@@ -163,7 +163,7 @@ class TwitterRestApi
     public function postFavoritesDestroy($id)
     {
         $response = $this->client->post('favorites/destroy.json', [
-            'body' => [
+            'form_params' => [
                 'id' => $id,
             ],
         ])->getBody();
