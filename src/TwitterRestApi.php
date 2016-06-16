@@ -100,7 +100,7 @@ class TwitterRestApi
 
     public function getUsersSearch($query)
     {
-        $response = $this->client->get('users/search.json?q=' . $query)->getBody();
+        $response = $this->client->get('users/search.json', ['query' => $query])->getBody();
         return json_decode($response, true);
     }
 
