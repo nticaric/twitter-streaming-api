@@ -31,6 +31,12 @@ class TwitterRestApi
         return json_decode($response, true);
     }
 
+    public function getStatusesUserTimeline($query = [])
+    {
+        $response = $this->client->get('statuses/user_timeline.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
     public function getFollowersIds($query = [])
     {
         $response = $this->client->get('followers/ids.json', ['query' => $query])->getBody();
