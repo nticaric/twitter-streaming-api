@@ -25,6 +25,12 @@ class TwitterRestApi
         $this->client = new Client($defaults);
     }
 
+    public function getAccountSettings($query = [])
+    {
+        $response = $this->client->get('account/settings.json', ['query' => $query])->getBody();
+        return json_decode($response, true);
+    }
+
     public function getFriendsIds($query = [])
     {
         $response = $this->client->get('friends/ids.json', ['query' => $query])->getBody();
