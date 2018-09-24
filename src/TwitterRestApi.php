@@ -60,8 +60,8 @@ class TwitterRestApi
         $response = $this->client->post('favorites/create.json', [
             'form_params' => [
                 'id'               => $postID,
-                'include_entities' => $includeEntities,
-            ],
+                'include_entities' => $includeEntities
+            ]
         ])->getBody();
 
         return json_decode($response, true);
@@ -77,8 +77,8 @@ class TwitterRestApi
     {
         $response = $this->client->post('friendships/create.json', [
             'form_params' => [
-                'screen_name' => $screenName,
-            ],
+                'screen_name' => $screenName
+            ]
         ])->getBody();
 
         return json_decode($response, true);
@@ -105,7 +105,7 @@ class TwitterRestApi
     public function postUsersLookup($query)
     {
         $response = $this->client->post('users/lookup.json', [
-            'form_params' => $query,
+            'form_params' => $query
         ])->getBody();
         return json_decode($response, true);
     }
@@ -136,8 +136,8 @@ class TwitterRestApi
 
     public function postDirectMessagesNew($query)
     {
-        $response = $this->client->post('direct_messages/new.json', [
-            'form_params' => $query,
+        $response = $this->client->post('direct_messages/events/new.json', [
+            'form_params' => $query
         ])->getBody();
 
         return json_decode($response, true);
@@ -146,7 +146,7 @@ class TwitterRestApi
     public function postStatusesUpdate($query)
     {
         $response = $this->client->post('statuses/update.json', [
-            'form_params' => $query,
+            'form_params' => $query
         ])->getBody();
 
         return json_decode($response, true);
@@ -155,7 +155,7 @@ class TwitterRestApi
     public function getFriendshipsShow($query)
     {
         $response = $this->client->get('friendships/show.json', [
-            'query' => $query,
+            'query' => $query
         ])->getBody();
 
         return json_decode($response, true);
@@ -165,8 +165,8 @@ class TwitterRestApi
     {
         $response = $this->client->post('friendships/destroy.json', [
             'form_params' => [
-                'screen_name' => $screen_name,
-            ],
+                'screen_name' => $screen_name
+            ]
         ])->getBody();
 
         return json_decode($response, true);
@@ -176,8 +176,8 @@ class TwitterRestApi
     {
         $response = $this->client->post('favorites/destroy.json', [
             'form_params' => [
-                'id' => $id,
-            ],
+                'id' => $id
+            ]
         ])->getBody();
 
         return json_decode($response, true);
