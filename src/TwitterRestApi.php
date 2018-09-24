@@ -137,7 +137,7 @@ class TwitterRestApi
     public function postDirectMessagesNew($query)
     {
         $response = $this->client->post('direct_messages/events/new.json', [
-            'form_params' => $query
+            'json' => $query
         ])->getBody();
 
         return json_decode($response, true);
