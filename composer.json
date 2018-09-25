@@ -2,15 +2,13 @@
     "name": "nticaric/twitter-streaming-api",
     "description": "A PHP library for consuming Twitter’s Streaming API",
     "homepage": "https://github.com/nticaric/twitter-streaming-api",
-    "license": "The MIT License (MIT)",
+    "license": "MIT",
     "type": "library",
-    "authors": [
-        {
-            "name": "Nenad Ticaric",
-            "email": "nticaric@gmail.com"
-        }
-    ],
-	"require": {
+    "authors": [{
+        "name": "Nenad Ticaric",
+        "email": "nticaric@gmail.com"
+    }],
+    "require": {
         "php": ">=5.4.0",
         "nesbot/carbon": "~1.0",
         "guzzlehttp/guzzle": "^6.0",
