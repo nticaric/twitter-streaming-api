@@ -6,7 +6,9 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class TwitterRestApi
 {
-    private $endpoint = "https://api.twitter.com/1.1/";
+    protected $defaults    = [];
+    private $endpoint      = "https://api.twitter.com/1.1/";
+    private $mediaEndpoint = "https://upload.twitter.com/1.1/";
 
     /**
      * If $postAsUser is set to true, the app will post as the user, else it will post as the platform
@@ -16,13 +18,13 @@ class TwitterRestApi
         $stack = HandlerStack::create();
         $oauth = new Oauth1($credentials);
         $stack->push($oauth);
-        $defaults = array_merge($defaults, [
+        $this->defaults = array_merge($defaults, [
             'base_uri' => $this->endpoint,
             'handler'  => $stack,
             'auth'     => 'oauth'
         ]);
 
-        $this->client = new Client($defaults);
+        $this->client = new Client($this->defaults);
     }
 
     public function getAccountSettings($query = [])
@@ -187,5 +189,66 @@ class TwitterRestApi
     {
         $response = $this->client->post("statuses/destroy/$tweetID.json")->getBody();
         return json_decode($response, true);
+    }
+
+    public function postMediaUpload($filename)
+    {
+        $imageInfo                  = $this->getImageInfo($filename);
+        $this->defaults['base_uri'] = $this->mediaEndpoint;
+        $client                     = new Client($this->defaults);
+        $response                   = $client->post("media/upload.json", [
+            'form_params' => [
+                'command'     => "INIT",
+                'total_bytes' => $imageInfo['total_bytes'],
+                'media_type'  => $imageInfo['media_type']
+            ]
+        ])->getBody();
+
+        $response = json_decode($response, true);
+
+        $media_id = $response['media_id_string'];
+
+        $postFile = $client->post("media/upload.json", [
+            'multipart' => [
+                [
+                    'name'     => 'command',
+                    'contents' => 'APPEND'
+                ],
+                [
+                    'name'     => 'media_id',
+                    'contents' => $media_id
+                ],
+                [
+                    'name'     => 'segment_index',
+                    'contents' => 0
+                ],
+                [
+                    'name'     => 'media_data',
+                    'contents' => base64_encode(file_get_contents($filename))
+                ]
+            ]
+        ])->getBody();
+
+        $response = $client->post("media/upload.json", [
+            'form_params' => [
+                'command'  => "FINALIZE",
+                'media_id' => $media_id
+            ]
+        ])->getBody();
+
+        return json_decode($response, true);
+    }
+
+    public function getImageInfo($filename)
+    {
+        $media_type  = mime_content_type($filename);
+        $total_bytes = filesize($filename);
+        $name        = basename($filename);
+        return [
+            'media_type'  => $media_type,
+            'total_bytes' => $total_bytes,
+            'name'        => $name
+        ];
+
     }
 }
